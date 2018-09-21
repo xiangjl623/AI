@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from dnn_basic.dnn_train import *
+from dnn_basic.initialize import *
+from dnn_basic.forward import *
+from dnn_basic.backward import *
 
 def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost=False,isPlot=True):
     """

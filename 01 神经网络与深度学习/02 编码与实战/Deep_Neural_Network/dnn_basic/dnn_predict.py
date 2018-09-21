@@ -1,5 +1,6 @@
 import numpy as np
 from .dnn_train import *
+from .L_layer_model import *
 
 def predict(X, y, parameters):
     """

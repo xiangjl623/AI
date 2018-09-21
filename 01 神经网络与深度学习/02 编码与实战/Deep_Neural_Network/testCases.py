@@ -1,6 +1,7 @@
 #testCase.py
 import numpy as np
 from dnn_basic.dnn_train import *
+from dnn_basic.initialize import *
 
 def initialize_parameters_deep_test_case():
     layers_dims = [5, 4, 3]
