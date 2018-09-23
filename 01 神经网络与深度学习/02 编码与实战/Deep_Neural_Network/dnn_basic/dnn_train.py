@@ -1,7 +1,7 @@
 import numpy as np
 from .utils import *
 
-def compute_cost(AL, Y):
+def compute_cost(AL, Y, parameters, lambd = 0):
     """
     实施等式（4）定义的成本函数。
 
@@ -15,10 +15,21 @@ def compute_cost(AL, Y):
     m = Y.shape[1]
     cost = -np.sum(np.multiply(np.log(AL), Y) + np.multiply(np.log(1 - AL), 1 - Y)) / m
 
+    if lambd != 0:
+        L2_regularization_cost = 0;
+        L = len(parameters) // 2 #整除
+        for l in range(L):
+            L2_regularization_cost = L2_regularization_cost + np.sum(np.square(parameters["W" + str(l + 1)]))
+        L2_regularization_cost = lambd * L2_regularization_cost / (2 * m)
+
+        cost = cost + L2_regularization_cost
+
     cost = np.squeeze(cost)
     assert(cost.shape == ())
 
     return cost
+
+
 
 def update_parameters(parameters, grads, learning_rate):
     """
@@ -39,6 +50,9 @@ def update_parameters(parameters, grads, learning_rate):
         parameters["b" + str(l + 1)] = parameters["b" + str(l + 1)] - learning_rate * grads["db" + str(l + 1)]
 
     return parameters
+
+
+
 
 
 

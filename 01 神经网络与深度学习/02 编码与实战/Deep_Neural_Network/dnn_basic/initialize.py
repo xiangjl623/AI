@@ -21,7 +21,7 @@ def initialize_parameters_deep(layers_dims, type = "he"):
             parameters['W' + str(l)] = np.zeros((layers_dims[l], layers_dims[l-1]))
             parameters['b' + str(l)] = np.zeros((layers_dims[l], 1))
         elif type == "random":
-            parameters['W' + str(l)] = np.random.randn(layers_dims[l], layers_dims[l-1]) * 10
+            parameters['W' + str(l)] = np.random.randn(layers_dims[l], layers_dims[l-1]) * 0.01 # 0.01?
             parameters['b' + str(l)] = np.zeros((layers_dims[l], 1))
         elif type == "he":
             parameters["W" + str(l)] = np.random.randn(layers_dims[l], layers_dims[l - 1]) / np.sqrt(layers_dims[l - 1])
@@ -29,5 +29,4 @@ def initialize_parameters_deep(layers_dims, type = "he"):
         #确保我要的数据的格式是正确的
         assert(parameters["W" + str(l)].shape == (layers_dims[l], layers_dims[l-1]))
         assert(parameters["b" + str(l)].shape == (layers_dims[l], 1))
-
     return parameters

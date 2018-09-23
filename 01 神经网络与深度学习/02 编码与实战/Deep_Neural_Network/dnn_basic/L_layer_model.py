@@ -1,11 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from dnn_basic.dnn_train import *
-from dnn_basic.initialize import *
-from dnn_basic.forward import *
-from dnn_basic.backward import *
+from .dnn_train import *
+from .initialize import *
+from .forward import *
+from .backward import *
 
-def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost=False,isPlot=True):
+def L_layer_model(X, Y, layers_dims, init_type = "he", lambd = 0, learning_rate=0.0075, num_iterations=3000, print_cost=False, isPlot=True):
     """
     实现一个L层神经网络：[LINEAR-> RELU] *（L-1） - > LINEAR-> SIGMOID。
 
@@ -24,16 +24,16 @@ def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, 
     np.random.seed(1)
     costs = []
 
-    parameters = initialize_parameters_deep(layers_dims)
+    parameters = initialize_parameters_deep(layers_dims, init_type)
 
-    for i in range(0,num_iterations):
-        AL , caches = L_model_forward(X,parameters)
+    for i in range(0, num_iterations):
+        AL, caches = L_model_forward(X, parameters)
 
-        cost = compute_cost(AL,Y)
+        cost =  compute_cost(AL, Y, parameters, lambd)
 
-        grads = L_model_backward(AL,Y,caches)
+        grads = L_model_backward(AL, Y, caches, lambd)
 
-        parameters = update_parameters(parameters,grads,learning_rate)
+        parameters = update_parameters(parameters, grads, learning_rate)
 
         #打印成本值，如果print_cost=False则忽略
         if i % 100 == 0:
@@ -41,12 +41,12 @@ def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, 
             costs.append(cost)
             #是否打印成本值
             if print_cost:
-                print("第", i ,"次迭代，成本值为：" ,np.squeeze(cost))
+                print("第", i, "次迭代，成本值为：", np.squeeze(cost))
     #迭代完成，根据条件绘制图
     if isPlot:
         plt.plot(np.squeeze(costs))
         plt.ylabel('cost')
         plt.xlabel('iterations (per tens)')
-        plt.title("Learning rate =" + str(learning_rate))
+        plt.title("Learning rate =" + str(learning_rate) + " init_type = " + init_type)
         plt.show()
     return parameters
